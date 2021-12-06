@@ -1,54 +1,54 @@
 const cds = require ('@sap/cds'); require('./workarounds')
 
-class TravelService extends cds.ApplicationService {
+class BoxService extends cds.ApplicationService {
 init() {
 
   /**
    * Reflect definitions from the service's CDS model
    */
-  const { Travel, Booking } = this.entities
+  const { Box, Geraete } = this.entities
 
 
   /**
    * Fill in virtual elements to control status of UI elements.
    */
   const _calculateButtonAvailability = any => {
-    const status = any.TravelStatus && any.TravelStatus.code || any.TravelStatus_code
+    const status = any.BoxStatus && any.BoxStatus.code || any.BoxStatus_code
     any.acceptEnabled = status !== 'A'
     any.rejectEnabled = status !== 'X'
     any.deductDiscountEnabled = status === 'O'
   }
-  this.after ('each', 'Travel', _calculateButtonAvailability)
-  this.after ('EDIT', 'Travel', _calculateButtonAvailability)
+  this.after ('each', 'Box', _calculateButtonAvailability)
+  this.after ('EDIT', 'Box', _calculateButtonAvailability)
 
 
   /**
-   * Fill in primary keys for new Travels.
+   * Fill in primary keys for new Boxs.
    * Note: In contrast to Bookings and BookingSupplements that has to happen
-   * upon SAVE, as multiple users could create new Travels concurrently.
+   * upon SAVE, as multiple users could create new Boxs concurrently.
    */
-  this.before ('CREATE', 'Travel', async req => {
-    const { maxID } = await SELECT.one `max(TravelID) as maxID` .from (Travel)
-    req.data.TravelID = maxID + 1
+  this.before ('CREATE', 'Box', async req => {
+    const { maxID } = await SELECT.one `max(BoxID) as maxID` .from (Box)
+    req.data.BoxID = maxID + 1
   })
 
 
   /**
-   * Fill in defaults for new Bookings when editing Travels.
+   * Fill in defaults for new Bookings when editing Boxs.
    */
-  this.before ('NEW', 'Booking', async (req) => {
-    const { to_Travel_TravelUUID } = req.data
-    const { status } = await SELECT `TravelStatus_code as status` .from (Travel.drafts, to_Travel_TravelUUID)
-    if (status === 'X') throw req.reject (400, 'Cannot add new bookings to rejected travels.')
-    const { maxID } = await SELECT.one `max(BookingID) as maxID` .from (Booking.drafts) .where ({to_Travel_TravelUUID})
-    req.data.BookingID = maxID + 1
-    req.data.BookingStatus_code = 'N'
+  this.before ('NEW', 'Geraete', async (req) => {
+    const { to_Box_BoxUUID } = req.data
+    const { status } = await SELECT `BoxStatus_code as status` .from (Box.drafts, to_Box_BoxUUID)
+    if (status === 'X') throw req.reject (400, 'Cannot add new bookings to rejected Boxs.')
+    const { maxID } = await SELECT.one `max(GeraeteID) as maxID` .from (Geraete.drafts) .where ({to_Box_BoxUUID})
+    req.data.GeraeteID = maxID + 1
+    req.data.GeraeteStatus_code = 'N'
    // req.data.BookingDate = (new Date).toISOString().slice(0,10) // today
   })
 
 
   /**
-   * Fill in defaults for new BookingSupplements when editing Travels.
+   * Fill in defaults for new BookingSupplements when editing Boxs.
    */
 /*  this.before ('NEW', 'BookingSupplement', async (req) => {
     const { to_Booking_BookingUUID } = req.data
@@ -77,11 +77,11 @@ init() {
   /**
    * Update the Travel's TotalPrice when a Booking's FlightPrice is modified.
    */
-  this.after ('PATCH', 'Booking', async (_,req) => { if ('FlightPrice' in req.data) {
+  /*this.after ('PATCH', 'Booking', async (_,req) => { if ('FlightPrice' in req.data) {
     // We need to fetch the Travel's UUID for the given Booking target
     const { travel } = await SELECT.one `to_Travel_TravelUUID as travel` .from (req._target)
     return this._update_totals4 (travel)
-  }})
+  }})*/
 
 
   /**
@@ -112,10 +112,10 @@ init() {
   /**
    * Validate a Travel's edited data before save.
    */
-  this.before ('SAVE', 'Travel', req => {
-    const { BeginDate, EndDate } = req.data, today = (new Date).toISOString().slice(0,10)
-    if (BeginDate < today) req.error (400, `Begin Date ${BeginDate} must not be before today ${today}.`, 'in/BeginDate')
-    if (BeginDate > EndDate) req.error (400, `Begin Date ${BeginDate} must be before End Date ${EndDate}.`, 'in/BeginDate')
+  this.before ('SAVE', 'Box', req => {
+    const { BeginDateAusleihe, EndDateAusleihe } = req.data, today = (new Date).toISOString().slice(0,10)
+    if (BeginDateAusleihe < today) req.error (400, `Begin Date ${BeginDateAusleihe} must not be before today ${today}.`, 'in/BeginDateAusleihe')
+    if (BeginDateAusleihe > EndDateAusleihe) req.error (400, `Begin Date ${BeginDateAusleihe} must be before End Date ${EndDateAusleihe}.`, 'in/BeginDateAusleihe')
   })
 
 
@@ -123,8 +123,8 @@ init() {
   // Action Implementations...
   //
 
-  this.on ('acceptTravel', req => UPDATE (req._target) .with ({TravelStatus_code:'A'}))
-  this.on ('rejectTravel', req => UPDATE (req._target) .with ({TravelStatus_code:'X'}))
+  this.on ('acceptBox', req => UPDATE (req._target) .with ({BoxStatus_code:'A'}))
+  this.on ('rejectBox', req => UPDATE (req._target) .with ({BoxStatus_code:'X'}))
  /* this.on ('deductDiscount', async req => {
     let discount = req.data.percent / 100
     let succeeded = await UPDATE (req._target)
@@ -152,4 +152,4 @@ init() {
   return super.init()
 
 }}
-module.exports = {TravelService}
+module.exports = {BoxService}

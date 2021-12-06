@@ -1,12 +1,12 @@
 {
   "_version": "1.32.0",
   "sap.app": {
-    "id": "sap.fe.cap.travel",
+    "id": "slah.db",
     "type": "application",
     "title": "{{title}}",
     "description": "{{description}}",
     "i18n": {
-      "bundleName": "sap.fe.cap.travel.i18n.i18n",
+      "bundleName": "slah.db.i18n.i18n",
       "supportedLocales": ["en", "de", "fr"],
       "fallbackLocale": "en"
     },
@@ -30,15 +30,15 @@
     },
     "crossNavigation": {
       "inbounds": {
-        "travel-inbound": {
+        "box-inbound": {
           "signature": {
             "parameters": {},
             "additionalParameters": "allowed"
           },
-          "semanticObject": "travel",
+          "semanticObject": "box",
           "action": "process",
-          "title": "Process Travels",
-          "subTitle": "Process travels",
+          "title": "Process Box",
+          "subTitle": "Process Boxen",
           "icon": "sap-icon://flight"
         }
       }
@@ -77,7 +77,7 @@
       "i18n": {
         "type": "sap.ui.model.resource.ResourceModel",
         "settings": {
-          "bundleName": "sap.fe.cap.travel.i18n.i18n",
+          "bundleName": "slah.db.i18n.i18n",
           "supportedLocales": ["en", "de", "fr"],
           "fallbackLocale": "en"
         }
@@ -97,56 +97,56 @@
       "routes": [
         {
           "pattern": ":?query:",
-          "name": "TravelList",
-          "target": "TravelList"
+          "name": "BoxList",
+          "target": "BoxList"
         },
         {
-          "pattern": "Travel({key}):?query:",
-          "name": "TravelObjectPage",
-          "target": "TravelObjectPage"
+          "pattern": "Box({key}):?query:",
+          "name": "BoxObjectPage",
+          "target": "BoxObjectPage"
         },
         {
-          "pattern": "Travel({key})/to_Booking({key2}):?query:",
-          "name": "BookingObjectPage",
-          "target": "BookingObjectPage"
+          "pattern": "Box({key})/to_Geraete({key2}):?query:",
+          "name": "GeraeteObjectPage",
+          "target": "GeraeteObjectPage"
         }
       ],
       "targets": {
-        "TravelList": {
+        "BoxList": {
           "type": "Component",
-          "id": "TravelList",
+          "id": "BoxList",
           "name": "sap.fe.templates.ListReport",
           "options": {
             "settings": {
-              "entitySet": "Travel",
+              "entitySet": "Box",
               "variantManagement": "Page",
               "initialLoad": true,
               "navigation": {
-                "Travel": {
+                "Box": {
                   "detail": {
-                    "route": "TravelObjectPage"
+                    "route": "BoxObjectPage"
                   }
                 }
               }
             }
           }
         },
-        "TravelObjectPage": {
+        "BoxObjectPage": {
           "type": "Component",
-          "id": "TravelObjectPage",
+          "id": "BoxObjectPage",
           "name": "sap.fe.templates.ObjectPage",
           "options": {
             "settings": {
-              "entitySet": "Travel",
+              "entitySet": "Box",
               "navigation": {
-                "to_Booking": {
+                "to_Geraete": {
                   "detail": {
-                    "route": "BookingObjectPage"
+                    "route": "GeraeteObjectPage"
                   }
                 }
               },
               "controlConfiguration": {
-                "to_Booking/@com.sap.vocabularies.UI.v1.LineItem": {
+                "to_Geraete/@com.sap.vocabularies.UI.v1.LineItem": {
                   "tableSettings": {
                     "type": "ResponsiveTable",
                     "personalization": {
@@ -163,13 +163,13 @@
             }
           }
         },
-        "BookingObjectPage": {
+        "GeraeteObjectPage": {
           "type": "Component",
-          "id": "BookingObjectPage",
+          "id": "GeraeteObjectPage",
           "name": "sap.fe.templates.ObjectPage",
           "options": {
             "settings": {
-              "entitySet": "Booking"
+              "entitySet": "Geraete"
             }
           }
         }
@@ -194,6 +194,6 @@
     "archeType": "transactional"
   },
   "sap.cloud": {
-    "service": "sap.fe.cap.sflight"
+    "service": "slah.db"
   }
 }

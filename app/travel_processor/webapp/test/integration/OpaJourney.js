@@ -7,7 +7,7 @@ sap.ui.define(["sap/ui/test/opaQunit"], function (opaTest) {
     start: function () {
       QUnit.module("Sample journey");
       opaTest("#000: Start", function (Given, When, Then) {
-        Given.iResetTestData().and.iStartMyApp("travel-process", {
+        Given.iResetTestData().and.iStartMyApp("box-process", {
           "sap-language": "EN",
         });
       });
@@ -25,7 +25,7 @@ sap.ui.define(["sap/ui/test/opaQunit"], function (opaTest) {
       opaTest(
         "#2: Object Page: Check Object Page loads",
         function (Given, When, Then) {
-          When.onTheMainPage.onTable().iPressRow({ TravelID: "4133" });
+          When.onTheMainPage.onTable().iPressRow({ BoxID: "4133" });
           Then.onTheDetailPage.iSeeThisPage();
 
           When.iNavigateBack();
@@ -33,28 +33,19 @@ sap.ui.define(["sap/ui/test/opaQunit"], function (opaTest) {
         }
       );
 
-      opaTest("#3: List report: Create travel", function (Given, When, Then) {
+      opaTest("#3: List report: Create box", function (Given, When, Then) {
         Then.onTheMainPage.iSeeThisPage();
         Then.onTheMainPage.onTable().iCheckAction("Create", { enabled: true });
 
         // Click on Create button
         When.onTheMainPage.onTable().iExecuteAction("Create");
         Then.onTheDetailPage.iSeeObjectPageInEditMode();
-        When.onTheDetailPage.iOpenSectionWithTitle("Travel");
-
-        // Value help Agency ID
-        When.onTheDetailPage
-          .onForm({ section: "Travel", fieldGroup: "TravelData" })
-          .iOpenValueHelp({ property: "to_Agency_AgencyID" });
-        When.onTheDetailPage
-          .onValueHelpDialog()
-          .iSelectRows({ 0: "070006" })
-          .and.iConfirm();
+        When.onTheDetailPage.iOpenSectionWithTitle("Box");
 
         // Value help Customer ID
         When.onTheDetailPage
-          .onForm({ section: "Travel", fieldGroup: "TravelData" })
-          .iOpenValueHelp({ property: "to_Customer_CustomerID" });
+          .onForm({ section: "Box", fieldGroup: "BoxData" })
+          .iOpenValueHelp({ property: "to_Patient_PatientID" });
         When.onTheDetailPage
           .onValueHelpDialog()
           .iSelectRows({ 0: "000001" })
@@ -62,23 +53,18 @@ sap.ui.define(["sap/ui/test/opaQunit"], function (opaTest) {
 
         // Starting date
         When.onTheDetailPage
-          .onForm({ section: "Travel", fieldGroup: "DateData" })
-          .iChangeField({ property: "BeginDate" }, "Jan 1, 2023");
+          .onForm({ section: "Box", fieldGroup: "DateData" })
+          .iChangeField({ property: "BeginDateAusleihe" }, "Jan 1, 2023");
 
         // End date
         When.onTheDetailPage
-          .onForm({ section: "Travel", fieldGroup: "DateData" })
-          .iChangeField({ property: "EndDate" }, "Dec 31, 2024");
-
-        // Booking fee
-        When.onTheDetailPage
-          .onForm({ section: "Travel", fieldGroup: "PriceData" })
-          .iChangeField({ property: "BookingFee" }, "50.00");
+          .onForm({ section: "Box", fieldGroup: "DateData" })
+          .iChangeField({ property: "EndDateAusleihe" }, "Dec 31, 2024");
 
         // Description
         When.onTheDetailPage
-          .onForm({ section: "Travel", fieldGroup: "TravelData" })
-          .iChangeField({ property: "Description" }, "Travel for deletion");
+          .onForm({ section: "Box", fieldGroup: "BoxData" })
+          .iChangeField({ property: "Boxname" }, "Box for deletion");
 
         // Save all
         Then.onTheDetailPage.onFooter().iCheckDraftStateSaved();
@@ -97,7 +83,7 @@ sap.ui.define(["sap/ui/test/opaQunit"], function (opaTest) {
         // select row to be deleted
         Given.onTheMainPage
           .onTable()
-          .iSelectRows({ Description: "Travel for deletion" });
+          .iSelectRows({ Description: "Box for deletion" });
 
         Then.onTheMainPage
           .onTable()
@@ -122,61 +108,61 @@ sap.ui.define(["sap/ui/test/opaQunit"], function (opaTest) {
           Then.onTheMainPage
             .onTable()
             .iCheckAction(
-              { service: "TravelService", action: "acceptTravel" },
+              { service: "BoxService", action: "acceptBox" },
               { visible: true, enabled: false }
             );
 
           // select first row
-          Given.onTheMainPage.onTable().iSelectRows({ TravelID: "4132" });
+          Given.onTheMainPage.onTable().iSelectRows({ BoxID: "4132" });
 
           // Check that bound action is now active after selection
           Then.onTheMainPage
             .onTable()
             .iCheckAction(
-              { service: "TravelService", action: "acceptTravel" },
+              { service: "BoxService", action: "acceptBox" },
               { visible: true, enabled: true }
             );
 
           // check that "Travel status" is Open
           Then.onTheMainPage
             .onTable()
-            .iCheckRows({ TravelID: "4132", "Travel Status": "Open" }, 1);
+            .iCheckRows({ BoxID: "4132", "Box Status": "Open" }, 1);
 
           // trigger action
           When.onTheMainPage.onTable().iExecuteAction({
-            service: "TravelService",
-            action: "acceptTravel",
+            service: "BoxService",
+            action: "acceptBox",
           });
 
           // check that "Travel status" is now Accepted
           Then.onTheMainPage
             .onTable()
-            .iCheckRows({ TravelID: "4132", "Travel Status": "Accepted" }, 1);
+            .iCheckRows({ BoxID: "4132", "Box Status": "Accepted" }, 1);
 
           // unselect first row
-          Given.onTheMainPage.onTable().iSelectRows({ TravelID: "4132" });
+          Given.onTheMainPage.onTable().iSelectRows({ BoxID: "4132" });
 
           // select 2nd row
-          Given.onTheMainPage.onTable().iSelectRows({ TravelID: "4131" });
+          Given.onTheMainPage.onTable().iSelectRows({ BoxID: "4131" });
 
           // check that "Travel status" is Open
           Then.onTheMainPage
             .onTable()
-            .iCheckRows({ TravelID: "4131", "Travel Status": "Open" }, 1);
+            .iCheckRows({ BoxID: "4131", "Box Status": "Open" }, 1);
 
           // trigger action
           When.onTheMainPage.onTable().iExecuteAction({
-            service: "TravelService",
-            action: "rejectTravel",
+            service: "BoxService",
+            action: "rejectBox",
           });
 
           // check that "Travel status" is Open
           Then.onTheMainPage
             .onTable()
-            .iCheckRows({ TravelID: "4131", "Travel Status": "Canceled" }, 1);
+            .iCheckRows({ BoxID: "4131", "Box Status": "Canceled" }, 1);
 
           // unselect 2nd row
-          Given.onTheMainPage.onTable().iSelectRows({ TravelID: "4131" });
+          Given.onTheMainPage.onTable().iSelectRows({ BoxID: "4131" });
 
           Then.onTheMainPage.iSeeThisPage();
         }

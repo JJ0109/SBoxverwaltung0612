@@ -1,59 +1,57 @@
 using { Country, managed, sap.common.CodeList } from '@sap/cds/common';
 
 
-namespace sap.fe.cap.travel;
+namespace slah.db;
 
-entity Travel : managed {
-  key TravelUUID : UUID;
-  TravelID       : Integer @readonly default 0;
-  BeginDate      : Date;
-  EndDate        : Date;
-  BookingFee     : Decimal(16, 3);
-  TotalPrice     : Decimal(16, 3) @readonly;
-  Description    : String(1024);
-  TravelStatus   : Association to TravelStatus @readonly;
-  to_Customer    : Association to Passenger;
-  to_Booking     : Composition of many Booking on to_Booking.to_Travel = $self;
+entity Box : managed {
+  key BoxUUID : UUID;
+  BoxID       : Integer @readonly default 0;
+  BeginDateAusleihe      : Date;
+  EndDateAusleihe        : Date;
+  Boxname    : String(1024);
+  BoxStatus   : Association to BoxStatus @readonly;
+  to_Patient    : Association to Patient;
+  to_Geraete     : Composition of many Geraete on to_Geraete.to_Box = $self;
 };
 
-entity Booking : managed {
-  key BookingUUID   : UUID;
-  BookingID         : Integer @Core.Computed;
+entity Geraete : managed {
+  key GeraeteUUID   : UUID;
+  GeraeteID         : Integer @Core.Computed;
   ConnectionID      : String(4);
-  BookingStatus     : Association to BookingStatus;
-  to_Carrier        : Association to Airline;
-  to_Customer       : Association to Passenger;
-  to_Travel         : Association to Travel;
-  to_Flight         : Association to Flight on  to_Flight.AirlineID = to_Carrier.AirlineID
-                                            and to_Flight.ConnectionID = ConnectionID;
+  GeraeteStatus     : Association to GeraeteStatus;
+  to_Geraetetyp        : Association to Geraetetyp;
+  to_Patient       : Association to Patient;
+  to_Box         : Association to Box;
+  to_GVerbindung         : Association to GVerbindung on  to_GVerbindung.GeraetetypID = to_Geraetetyp.GeraetetypID
+                                            and to_GVerbindung.ConnectionID = ConnectionID;
 };
 
 
-entity Airline : managed {
-  key AirlineID : String(3);
-  Name          : String(40);
-  AirlinePicURL : String      @UI : {IsImageURL : true};
+entity Geraetetyp : managed {
+  key GeraetetypID : String(3);
+  Bezeichnung          : String(40);
+  AnleitungURL : String      @UI : {IsImageURL : true};
 };
 
 
-entity Flight : managed {
-  key AirlineID    : String(3);
+entity GVerbindung : managed {
+  key GeraetetypID    : String(3);
   key ConnectionID : String(4);
-  to_Airline       : Association to Airline on to_Airline.AirlineID = AirlineID;
+  to_Geraetetyp       : Association to Geraetetyp on to_Geraetetyp.GeraetetypID = GeraetetypID;
 };
 
 
-entity Passenger : managed {
-  key CustomerID : String(6);
-  FirstName      : String(40);
-  LastName       : String(40);
-  Title          : String(10);
-  Street         : String(60);
-  PostalCode     : String(10);
-  City           : String(40);
+entity Patient : managed {
+  key PatientID : String(6);
+  Vorname      : String(40);
+  Nachname       : String(40);
+  Anrede          : String(10);
+  Strasse         : String(60);
+  Plz     : String(10);
+  Stadt           : String(40);
   CountryCode    : Country;
-  PhoneNumber    : String(30);
-  EMailAddress   : String(256);
+  Telefonnr    : String(30);
+  EMail   : String(256);
 };
 
 
@@ -61,7 +59,7 @@ entity Passenger : managed {
 //  Code Lists
 //
 
-entity BookingStatus : CodeList {
+entity GeraeteStatus : CodeList {
   key code : String enum {
     New      = 'N';
     Booked   = 'B';
@@ -69,7 +67,7 @@ entity BookingStatus : CodeList {
   };
 };
 
-entity TravelStatus : CodeList {
+entity BoxStatus : CodeList {
   key code : String enum {
     Open     = 'O';
     Accepted = 'A';

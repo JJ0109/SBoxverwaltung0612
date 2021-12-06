@@ -1,22 +1,22 @@
-using TravelService from '../../srv/travel-service';
+using BoxService from '../../srv/boxservice';
 
 //
 // annotatios that control the fiori layout
 //
 
-annotate TravelService.Travel with @UI : {
+annotate BoxService.Box with @UI : {
 
   Identification : [
-    { $Type  : 'UI.DataFieldForAction', Action : 'TravelService.acceptTravel',   Label  : '{i18n>AcceptTravel}'   },
-    { $Type  : 'UI.DataFieldForAction', Action : 'TravelService.rejectTravel',   Label  : '{i18n>RejectTravel}'   },
-   // { $Type  : 'UI.DataFieldForAction', Action : 'TravelService.deductDiscount', Label  : '{i18n>DeductDiscount}' }
+    { $Type  : 'UI.DataFieldForAction', Action : 'BoxService.acceptBox',   Label  : '{i18n>AcceptTravel}'   },
+    { $Type  : 'UI.DataFieldForAction', Action : 'BoxService.rejectBox',   Label  : '{i18n>RejectTravel}'   },
+   // { $Type  : 'UI.DataFieldForAction', Action : 'BoxService.deductDiscount', Label  : '{i18n>DeductDiscount}' }
   ],
   HeaderInfo : {
     TypeName       : '{i18n>Travel}',
     TypeNamePlural : '{i18n>Travels}',
     Title          : {
       $Type : 'UI.DataField',
-      Value : TravelID
+      Value : BoxID
     },
     Description    : {
       $Type : 'UI.DataField',
@@ -28,42 +28,36 @@ annotate TravelService.Travel with @UI : {
     Visualizations : ['@UI.LineItem'],
     SortOrder      : [{
       $Type      : 'Common.SortOrderType',
-      Property   : TravelID,
+      Property   : BoxID,
       Descending : true
     }]
   },
   SelectionFields : [
-    TravelID,
-    to_Customer_CustomerID,
-    TravelStatus_code
+    BoxID,
+    to_Patient_PatientID,
+    BoxStatus_code
   ],
   LineItem : [
-    { $Type  : 'UI.DataFieldForAction', Action : 'TravelService.acceptTravel',   Label  : '{i18n>AcceptTravel}'   },
-    { $Type  : 'UI.DataFieldForAction', Action : 'TravelService.rejectTravel',   Label  : '{i18n>RejectTravel}'   },
-   // { $Type  : 'UI.DataFieldForAction', Action : 'TravelService.deductDiscount', Label  : '{i18n>DeductDiscount}' },
-    { Value : TravelID               },
-    { Value : to_Customer_CustomerID },
-    { Value : BeginDate              },
-    { Value : EndDate                },
-    { Value : Description            },
-    { $Type : 'UI.DataField', Value : TravelStatus_code, Criticality : TravelStatus.criticality }
+    { $Type  : 'UI.DataFieldForAction', Action : 'BoxService.acceptBox',   Label  : '{i18n>AcceptTravel}'   },
+    { $Type  : 'UI.DataFieldForAction', Action : 'BoxService.rejectBox',   Label  : '{i18n>RejectTravel}'   },
+   // { $Type  : 'UI.DataFieldForAction', Action : 'BoxService.deductDiscount', Label  : '{i18n>DeductDiscount}' },
+    { Value : BoxID               },
+    { Value : to_Patient_PatientID },
+    { Value : BeginDateAusleihe              },
+    { Value : EndDateAusleihe                },
+    { Value : Boxname           },
+    { $Type : 'UI.DataField', Value : BoxStatus_code, Criticality : BoxStatus.criticality }
   ],
   Facets : [{
     $Type  : 'UI.CollectionFacet',
     Label  : '{i18n>Travel}',
-    ID     : 'Travel',
+    ID     : 'Box',
     Facets : [
       {  // travel details
         $Type  : 'UI.ReferenceFacet',
-        ID     : 'TravelData',
-        Target : '@UI.FieldGroup#TravelData',
+        ID     : 'BoxData',
+        Target : '@UI.FieldGroup#BoxData',
         Label  : '{i18n>Travel}'
-      },
-      {  // price information
-        $Type  : 'UI.ReferenceFacet',
-        ID     : 'PriceData',
-        Target : '@UI.FieldGroup#PriceData',
-        Label  : '{i18n>Prices}'
       },
       {  // date information
         $Type  : 'UI.ReferenceFacet',
@@ -74,38 +68,34 @@ annotate TravelService.Travel with @UI : {
       ]
   }, {  // booking list
     $Type  : 'UI.ReferenceFacet',
-    Target : 'to_Booking/@UI.PresentationVariant',
+    Target : 'to_Geraete/@UI.PresentationVariant',
     Label  : '{i18n>Booking}'
   }],
-  FieldGroup#TravelData : { Data : [
-    { Value : TravelID               },
-    { Value : to_Customer_CustomerID },
-    { Value : Description            },
+  FieldGroup#BoxData : { Data : [
+    { Value : BoxID               },
+    { Value : to_Patient_PatientID },
+    { Value : Boxname            },
     {
       $Type       : 'UI.DataField',
-      Value       : TravelStatus_code,
-      Criticality : TravelStatus.criticality,
+      Value       : BoxStatus_code,
+      Criticality : BoxStatus.criticality,
       Label : '{i18n>Status}' // label only necessary if differs from title of element
     }
   ]},
   FieldGroup #DateData : {Data : [
-    { $Type : 'UI.DataField', Value : BeginDate },
-    { $Type : 'UI.DataField', Value : EndDate }
+    { $Type : 'UI.DataField', Value : BeginDateAusleihe },
+    { $Type : 'UI.DataField', Value : EndDateAusleihe }
   ]},
-  FieldGroup #PriceData : {Data : [
-    { $Type : 'UI.DataField', Value : BookingFee },
-    { $Type : 'UI.DataField', Value : TotalPrice }
-  ]}
 };
 
-annotate TravelService.Booking with @UI : {
+/*annotate BoxService.Geraete with @UI : {
   Identification : [
-    { Value : BookingID },
+    { Value : GeraeteID },
   ],
   HeaderInfo : {
     TypeName       : '{i18n>Bookings}',
     TypeNamePlural : '{i18n>Bookings}',
-    Title          : { Value : BookingID },
+    Title          : { Value : GeraeteID },
     Description    : {
       $Type : 'UI.DataField',
       Value : '{i18n>BookingID}'
@@ -115,36 +105,81 @@ annotate TravelService.Booking with @UI : {
     Visualizations : ['@UI.LineItem'],
     SortOrder      : [{
       $Type      : 'Common.SortOrderType',
-      Property   : BookingID,
+      Property   : GeraeteID,
       Descending : false
     }]
   },
   SelectionFields : [],
   LineItem : [
-    { Value : to_Carrier.AirlinePicURL,  Label : '  '},
-    { Value : BookingID,             Label : '{i18n>BookingNumber}' },
-    { Value : to_Customer_CustomerID },
-    { Value : to_Carrier_AirlineID   },
+    { Value : to_Geraetetyp.AnleitungURL,  Label : '  '},
+    { Value : GeraeteID,             Label : '{i18n>BookingNumber}' },
+    { Value : to_Patient_PatientID },
+    { Value : to_Geraetetyp_GeraetetypID   },
     { Value : ConnectionID,          Label : '{i18n>FlightNumber}' },
-    { Value : BookingStatus_code     }
+    { Value : GeraeteStatus_code     }
   ],
   Facets : [{
     $Type  : 'UI.CollectionFacet',
     Label  : '{i18n>Booking}',
-    ID     : 'Booking',
+    ID     : 'Geraete',
+  }],
+  FieldGroup #GeraeteData : { Data : [
+    { Value : GeraeteID              },
+    { Value : to_Patient_PatientID },
+    { Value : to_Geraetetyp_GeraetetypID   },
+    { Value : ConnectionID           },
+    { Value : GeraeteStatus_code     }
+  ]},
+};*/
+
+
+annotate BoxService.Geraete with @UI : {
+  Identification : [
+    { Value : GeraeteID },
+  ],
+  HeaderInfo : {
+    TypeName       : '{i18n>Bookings}',
+    TypeNamePlural : '{i18n>Bookings}',
+    Title          : { Value : GeraeteID },
+    Description    : {
+      $Type : 'UI.DataField',
+      Value : '{i18n>BookingID}'
+    }
+  },
+  PresentationVariant : {
+    Visualizations : ['@UI.LineItem'],
+    SortOrder      : [{
+      $Type      : 'Common.SortOrderType',
+      Property   : GeraeteID,
+      Descending : false
+    }]
+  },
+  SelectionFields : [],
+  LineItem : [
+    { Value : to_Geraetetyp.AnleitungURL,  Label : '  '},
+    { Value : GeraeteID,             Label : '{i18n>BookingNumber}' },
+    { Value : to_Patient_PatientID },
+    { Value : to_Geraetetyp_GeraetetypID   },
+    { Value : ConnectionID,          Label : '{i18n>FlightNumber}' },
+    { Value : GeraeteStatus_code     }
+  ],
+  Facets : [{
+    $Type  : 'UI.CollectionFacet',
+    Label  : '{i18n>Booking}',
+    ID     : 'Geraete',
     Facets : [{  // booking details
       $Type  : 'UI.ReferenceFacet',
-      ID     : 'BookingData',
-      Target : '@UI.FieldGroup#BookingData',
-      Label  : 'Booking'
+      ID     : 'GeraeteData',
+      Target : '@UI.FieldGroup#GeraeteData',
+      Label  : 'Geraete'
     }]
-  }],
-  FieldGroup #BookingData : { Data : [
-    { Value : BookingID              },
-    { Value : to_Customer_CustomerID },
-    { Value : to_Carrier_AirlineID   },
+  }, ],
+  FieldGroup #GeraeteData : { Data : [
+    { Value : GeraeteID              },
+    { Value : to_Patient_PatientID },
+    { Value : to_Geraetetyp_GeraetetypID   },
     { Value : ConnectionID           },
-    { Value : BookingStatus_code     }
+    { Value : GeraeteStatus_code     }
   ]},
 };
 

@@ -1,4 +1,4 @@
-using {TravelService} from '../../srv/travel-service';
+using {BoxService} from '../../srv/boxservice';
 
-annotate TravelService.Travel with @odata.draft.enabled;
-annotate TravelService.Travel with @Common.SemanticKey: [TravelID];
+annotate BoxService.Box with @odata.draft.enabled;
+annotate BoxService.Box with @Common.SemanticKey: [BoxID];

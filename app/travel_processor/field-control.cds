@@ -1,4 +1,4 @@
-using TravelService from '../../srv/travel-service';
+using BoxService from '../../srv/boxservice';
 
 //
 // annotations that control the behavior of fields and actions
@@ -8,36 +8,36 @@ using TravelService from '../../srv/travel-service';
 annotate cds.UUID with @Core.Computed  @odata.Type : 'Edm.String';
 
 // Add fields to control enablement of action buttons on UI
-extend projection TravelService.Travel with {
+extend projection BoxService.Box with {
   // REVISIT: shall be improved by omitting "null as"
   virtual null as acceptEnabled         : Boolean @UI.Hidden,
   virtual null as rejectEnabled         : Boolean @UI.Hidden,
-  virtual null as deductDiscountEnabled : Boolean @UI.Hidden,
+//  virtual null as deductDiscountEnabled : Boolean @UI.Hidden,
 }
 
-annotate TravelService.Travel with /* @(Common.SideEffects: {
+annotate BoxService.Box with /* @(Common.SideEffects: {
   SourceProperties: [BookingFee],
   TargetProperties: ['TotalPrice']
 })*/{
-//  BookingFee  @Common.FieldControl  : TravelStatus.fieldControl;
-  BeginDate   @Common.FieldControl  : TravelStatus.fieldControl;
-  EndDate     @Common.FieldControl  : TravelStatus.fieldControl;
-//  to_Agency   @Common.FieldControl  : TravelStatus.fieldControl;
-  to_Customer @Common.FieldControl  : TravelStatus.fieldControl;
+//  BookingFee  @Common.FieldControl  : BoxStatus.fieldControl;
+  BeginDateAusleihe   @Common.FieldControl  : BoxStatus.fieldControl;
+  EndDateAusleihe     @Common.FieldControl  : BoxStatus.fieldControl;
+//  to_Agency   @Common.FieldControl  : BoxStatus.fieldControl;
+  to_Patient @Common.FieldControl  : BoxStatus.fieldControl;
 
 } actions {
-  rejectTravel @(
+  rejectBox @(
     Core.OperationAvailable : in.rejectEnabled,
     Common.SideEffects.TargetProperties : [
-      'in/TravelStatus_code',
+      'in/BoxStatus_code',
       'in/acceptEnabled',
       'in/rejectEnabled'
     ],
   );
-  acceptTravel @(
+  acceptBox @(
     Core.OperationAvailable : in.acceptEnabled,
     Common.SideEffects.TargetProperties : [
-      'in/TravelStatus_code',
+      'in/BoxStatus_code',
       'in/acceptEnabled',
       'in/rejectEnabled'
     ],
@@ -48,23 +48,22 @@ annotate TravelService.Travel with /* @(Common.SideEffects: {
   );*/
 }
 
-annotate TravelService.Booking with @UI.CreateHidden : to_Travel.TravelStatus.createDeleteHidden;
+annotate BoxService.Geraete with @UI.CreateHidden : to_Box.BoxStatus.createDeleteHidden;
 
-annotate TravelService.Booking {
-  BookingDate   @Core.Computed;
-  ConnectionID  @Common.FieldControl  : to_Travel.TravelStatus.fieldControl;
- // FlightDate    @Common.FieldControl  : to_Travel.TravelStatus.fieldControl;
- // FlightPrice   @Common.FieldControl  : to_Travel.TravelStatus.fieldControl;
-  BookingStatus @Common.FieldControl  : to_Travel.TravelStatus.fieldControl;
-  to_Carrier    @Common.FieldControl  : to_Travel.TravelStatus.fieldControl;
-  to_Customer   @Common.FieldControl  : to_Travel.TravelStatus.fieldControl;
+annotate BoxService.Geraete {
+  ConnectionID  @Common.FieldControl  : to_Box.BoxStatus.fieldControl;
+ // FlightDate    @Common.FieldControl  : to_Box.BoxStatus.fieldControl;
+ // FlightPrice   @Common.FieldControl  : to_Box.BoxStatus.fieldControl;
+  GeraeteStatus @Common.FieldControl  : to_Box.BoxStatus.fieldControl;
+  to_Geraetetyp    @Common.FieldControl  : to_Box.BoxStatus.fieldControl;
+  to_Patient   @Common.FieldControl  : to_Box.BoxStatus.fieldControl;
 };
 
-/*annotate TravelService.BookingSupplement {
-  Price         @Common.FieldControl  : to_Travel.TravelStatus.fieldControl;
-  to_Supplement @Common.FieldControl  : to_Travel.TravelStatus.fieldControl;
-  to_Booking    @Common.FieldControl  : to_Travel.TravelStatus.fieldControl;
-  to_Travel     @Common.FieldControl  : to_Travel.TravelStatus.fieldControl;
+/*annotate BoxService.GeraeteSupplement {
+  Price         @Common.FieldControl  : to_Box.BoxStatus.fieldControl;
+  to_Supplement @Common.FieldControl  : to_Box.BoxStatus.fieldControl;
+  to_Booking    @Common.FieldControl  : to_Box.BoxStatus.fieldControl;
+  to_Box     @Common.FieldControl  : to_Box.BoxStatus.fieldControl;
 
 };*/
 

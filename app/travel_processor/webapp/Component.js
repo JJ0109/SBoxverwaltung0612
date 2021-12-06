@@ -1,6 +1,6 @@
 sap.ui.define(["sap/fe/core/AppComponent"], function (AppComponent) {
   "use strict";
-  return AppComponent.extend("sap.fe.cap.travel.Component", {
+  return AppComponent.extend("slah.db.Component", {
     metadata: { manifest: "json" },
   });
 });

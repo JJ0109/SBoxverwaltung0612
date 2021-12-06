@@ -10,7 +10,7 @@ sap.ui.define(
 
     var journeyRunner = new JourneyRunner({
       // start index.html in web folder
-      launchUrl: sap.ui.require.toUrl("sap/fe/cap/travel") + "/index.html",
+      launchUrl: sap.ui.require.toUrl("slah/db") + "/index.html",
     });
 
     journeyRunner.run(

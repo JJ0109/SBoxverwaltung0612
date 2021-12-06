@@ -9,9 +9,9 @@ sap.ui.define(["sap/fe/test/ObjectPage"], function (ObjectPage) {
 
   return new ObjectPage(
     {
-      appId: "sap.fe.cap.travel",
-      componentId: "TravelObjectPage",
-      entitySet: "Travel",
+      appId: "slah.db",
+      componentId: "BoxObjectPage",
+      entitySet: "Box",
     },
     AdditionalCustomObjectPageDefinition
   );
