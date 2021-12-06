@@ -10,11 +10,8 @@ annotate schema.Travel with @title: '{i18n>Travel}' {
   BeginDate    @title: '{i18n>BeginDate}';
   EndDate      @title: '{i18n>EndDate}';
   Description  @title: '{i18n>Description}';
-  BookingFee   @title: '{i18n>BookingFee}'    @Measures.ISOCurrency: CurrencyCode_code;
-  TotalPrice   @title: '{i18n>TotalPrice}'    @Measures.ISOCurrency: CurrencyCode_code;
   TravelStatus @title: '{i18n>TravelStatus}'  @Common.Text: TravelStatus.name     @Common.TextArrangement: #TextOnly;
   to_Customer  @title: '{i18n>CustomerID}'    @Common.Text: to_Customer.LastName  @Common.TextArrangement: #TextFirst;
-  to_Agency    @title: '{i18n>AgencyID}'      @Common.Text: to_Agency.Name        @Common.TextArrangement: #TextFirst;
 }
 
 annotate schema.TravelStatus with {
@@ -25,11 +22,7 @@ annotate schema.Booking with @title: '{i18n>Booking}' {
   BookingUUID   @UI.Hidden;
   to_Travel     @UI.Hidden;
   BookingID     @title: '{i18n>BookingID}';
-  BookingDate   @title: '{i18n>BookingDate}';
   ConnectionID  @title: '{i18n>ConnectionID}';
-  CurrencyCode  @title: '{i18n>CurrencyCode}';
-  FlightDate    @title: '{i18n>FlightDate}';
-  FlightPrice   @title: '{i18n>FlightPrice}'    @Measures.ISOCurrency: CurrencyCode_code;
   BookingStatus @title: '{i18n>BookingStatus}'  @Common.Text: BookingStatus.name    @Common.TextArrangement: #TextOnly;
   to_Carrier    @title: '{i18n>AirlineID}'      @Common.Text: to_Carrier.Name       @Common.TextArrangement: #TextFirst;
   to_Customer   @title: '{i18n>CustomerID}'     @Common.Text: to_Customer.LastName  @Common.TextArrangement: #TextFirst;
@@ -39,7 +32,7 @@ annotate schema.BookingStatus with {
   code @Common.Text : name @Common.TextArrangement: #TextOnly
 }
 
-annotate schema.BookingSupplement with @title: '{i18n>BookingSupplement}' {
+/*annotate schema.BookingSupplement with @title: '{i18n>BookingSupplement}' {
   BookSupplUUID        @UI.Hidden;
   to_Booking           @UI.Hidden;
   to_Travel            @UI.Hidden;
@@ -47,9 +40,9 @@ annotate schema.BookingSupplement with @title: '{i18n>BookingSupplement}' {
   Price                @title: '{i18n>Price}'         @Measures.ISOCurrency: CurrencyCode_code;
   BookingSupplementID  @title: '{i18n>BookingSupplementID}';
   CurrencyCode         @title: '{i18n>CurrencyCode}';
-}
+}*/
 
-annotate schema.TravelAgency with @title: '{i18n>TravelAgency}' {
+/*annotate schema.TravelAgency with @title: '{i18n>TravelAgency}' {
   AgencyID     @title: '{i18n>AgencyID}'      @Common.Text: Name @Common.TextArrangement: #TextFirst;
   Name         @title: '{i18n>AgencyName}';
   Street       @title: '{i18n>Street}';
@@ -59,7 +52,7 @@ annotate schema.TravelAgency with @title: '{i18n>TravelAgency}' {
   PhoneNumber  @title: '{i18n>PhoneNumber}';
   EMailAddress @title: '{i18n>EMailAddress}';
   WebAddress   @title: '{i18n>WebAddress}';
-}
+}*/
 
 annotate schema.Passenger with @title: '{i18n>Passenger}' {
   CustomerID   @title: '{i18n>CustomerID}'    @Common.Text: LastName @Common.TextArrangement: #TextFirst;
@@ -77,23 +70,11 @@ annotate schema.Passenger with @title: '{i18n>Passenger}' {
 annotate schema.Airline with @title: '{i18n>Airline}' {
   AirlineID    @title: '{i18n>AirlineID}'     @Common.Text: Name @Common.TextArrangement: #TextFirst;
   Name         @title: '{i18n>Name}';
-  CurrencyCode @title: '{i18n>CurrencyCode}';
 }
 
 annotate schema.Flight with @title: '{i18n>Flight}' {
   AirlineID     @title: '{i18n>AirlineID}';
-  FlightDate    @title: '{i18n>FlightDate}';
   ConnectionID  @title: '{i18n>ConnectionID}';
-  CurrencyCode  @title: '{i18n>CurrencyCode}';
-  Price         @title: '{i18n>Price}'        @Measures.ISOCurrency: CurrencyCode_code;
-  PlaneType     @title: '{i18n>PlaneType}';
-  MaximumSeats  @title: '{i18n>MaximumSeats}';
-  OccupiedSeats @title: '{i18n>OccupiedSeats}';
 }
 
-annotate schema.Supplement with @title: '{i18n>Supplement}' {
-  SupplementID @title: '{i18n>SupplementID}'  @Common.Text: Description @Common.TextArrangement: #TextFirst;
-  Price        @title: '{i18n>Price}'         @Measures.ISOCurrency: CurrencyCode_code;
-  CurrencyCode @title: '{i18n>CurrencyCode}';
-  Description  @title: '{i18n>Description}';
-}
+

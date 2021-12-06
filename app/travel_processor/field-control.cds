@@ -15,14 +15,14 @@ extend projection TravelService.Travel with {
   virtual null as deductDiscountEnabled : Boolean @UI.Hidden,
 }
 
-annotate TravelService.Travel with @(Common.SideEffects: {
+annotate TravelService.Travel with /* @(Common.SideEffects: {
   SourceProperties: [BookingFee],
   TargetProperties: ['TotalPrice']
-}){
-  BookingFee  @Common.FieldControl  : TravelStatus.fieldControl;
+})*/{
+//  BookingFee  @Common.FieldControl  : TravelStatus.fieldControl;
   BeginDate   @Common.FieldControl  : TravelStatus.fieldControl;
   EndDate     @Common.FieldControl  : TravelStatus.fieldControl;
-  to_Agency   @Common.FieldControl  : TravelStatus.fieldControl;
+//  to_Agency   @Common.FieldControl  : TravelStatus.fieldControl;
   to_Customer @Common.FieldControl  : TravelStatus.fieldControl;
 
 } actions {
@@ -42,10 +42,10 @@ annotate TravelService.Travel with @(Common.SideEffects: {
       'in/rejectEnabled'
     ],
   );
-  deductDiscount @(
+/*  deductDiscount @(
     Core.OperationAvailable : in.deductDiscountEnabled,
     Common.SideEffects.TargetProperties : ['in/deductDiscountEnabled'],
-  );
+  );*/
 }
 
 annotate TravelService.Booking with @UI.CreateHidden : to_Travel.TravelStatus.createDeleteHidden;
@@ -53,19 +53,19 @@ annotate TravelService.Booking with @UI.CreateHidden : to_Travel.TravelStatus.cr
 annotate TravelService.Booking {
   BookingDate   @Core.Computed;
   ConnectionID  @Common.FieldControl  : to_Travel.TravelStatus.fieldControl;
-  FlightDate    @Common.FieldControl  : to_Travel.TravelStatus.fieldControl;
-  FlightPrice   @Common.FieldControl  : to_Travel.TravelStatus.fieldControl;
+ // FlightDate    @Common.FieldControl  : to_Travel.TravelStatus.fieldControl;
+ // FlightPrice   @Common.FieldControl  : to_Travel.TravelStatus.fieldControl;
   BookingStatus @Common.FieldControl  : to_Travel.TravelStatus.fieldControl;
   to_Carrier    @Common.FieldControl  : to_Travel.TravelStatus.fieldControl;
   to_Customer   @Common.FieldControl  : to_Travel.TravelStatus.fieldControl;
 };
 
-annotate TravelService.BookingSupplement {
+/*annotate TravelService.BookingSupplement {
   Price         @Common.FieldControl  : to_Travel.TravelStatus.fieldControl;
   to_Supplement @Common.FieldControl  : to_Travel.TravelStatus.fieldControl;
   to_Booking    @Common.FieldControl  : to_Travel.TravelStatus.fieldControl;
   to_Travel     @Common.FieldControl  : to_Travel.TravelStatus.fieldControl;
 
-};
+};*/
 
-annotate Currency with @Common.UnitSpecificScale : Decimals;
+//annotate Currency with @Common.UnitSpecificScale : Decimals;

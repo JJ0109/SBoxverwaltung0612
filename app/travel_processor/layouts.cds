@@ -9,7 +9,7 @@ annotate TravelService.Travel with @UI : {
   Identification : [
     { $Type  : 'UI.DataFieldForAction', Action : 'TravelService.acceptTravel',   Label  : '{i18n>AcceptTravel}'   },
     { $Type  : 'UI.DataFieldForAction', Action : 'TravelService.rejectTravel',   Label  : '{i18n>RejectTravel}'   },
-    { $Type  : 'UI.DataFieldForAction', Action : 'TravelService.deductDiscount', Label  : '{i18n>DeductDiscount}' }
+   // { $Type  : 'UI.DataFieldForAction', Action : 'TravelService.deductDiscount', Label  : '{i18n>DeductDiscount}' }
   ],
   HeaderInfo : {
     TypeName       : '{i18n>Travel}',
@@ -34,21 +34,17 @@ annotate TravelService.Travel with @UI : {
   },
   SelectionFields : [
     TravelID,
-    to_Agency_AgencyID,
     to_Customer_CustomerID,
     TravelStatus_code
   ],
   LineItem : [
     { $Type  : 'UI.DataFieldForAction', Action : 'TravelService.acceptTravel',   Label  : '{i18n>AcceptTravel}'   },
     { $Type  : 'UI.DataFieldForAction', Action : 'TravelService.rejectTravel',   Label  : '{i18n>RejectTravel}'   },
-    { $Type  : 'UI.DataFieldForAction', Action : 'TravelService.deductDiscount', Label  : '{i18n>DeductDiscount}' },
+   // { $Type  : 'UI.DataFieldForAction', Action : 'TravelService.deductDiscount', Label  : '{i18n>DeductDiscount}' },
     { Value : TravelID               },
-    { Value : to_Agency_AgencyID     },
     { Value : to_Customer_CustomerID },
     { Value : BeginDate              },
     { Value : EndDate                },
-    { Value : BookingFee             },
-    { Value : TotalPrice             },
     { Value : Description            },
     { $Type : 'UI.DataField', Value : TravelStatus_code, Criticality : TravelStatus.criticality }
   ],
@@ -83,7 +79,6 @@ annotate TravelService.Travel with @UI : {
   }],
   FieldGroup#TravelData : { Data : [
     { Value : TravelID               },
-    { Value : to_Agency_AgencyID     },
     { Value : to_Customer_CustomerID },
     { Value : Description            },
     {
@@ -128,12 +123,9 @@ annotate TravelService.Booking with @UI : {
   LineItem : [
     { Value : to_Carrier.AirlinePicURL,  Label : '  '},
     { Value : BookingID,             Label : '{i18n>BookingNumber}' },
-    { Value : BookingDate            },
     { Value : to_Customer_CustomerID },
     { Value : to_Carrier_AirlineID   },
     { Value : ConnectionID,          Label : '{i18n>FlightNumber}' },
-    { Value : FlightDate             },
-    { Value : FlightPrice            },
     { Value : BookingStatus_code     }
   ],
   Facets : [{
@@ -146,55 +138,14 @@ annotate TravelService.Booking with @UI : {
       Target : '@UI.FieldGroup#BookingData',
       Label  : 'Booking'
     }]
-  }, {  // supplements list
-    $Type  : 'UI.ReferenceFacet',
-    Target : 'to_BookSupplement/@UI.PresentationVariant',
-    Label  : '{i18n>BookingSupplement}'
   }],
   FieldGroup #BookingData : { Data : [
     { Value : BookingID              },
-    { Value : BookingDate,           },
     { Value : to_Customer_CustomerID },
     { Value : to_Carrier_AirlineID   },
     { Value : ConnectionID           },
-    { Value : FlightDate             },
-    { Value : FlightPrice            },
     { Value : BookingStatus_code     }
   ]},
 };
 
-annotate TravelService.BookingSupplement with @UI : {
-  Identification : [
-    { Value : BookingSupplementID }
-  ],
-  HeaderInfo : {
-    TypeName       : '{i18n>BookingSupplement}',
-    TypeNamePlural : '{i18n>BookingSupplements}',
-    Title          : { Value : BookingSupplementID },
-    Description    : { Value : BookingSupplementID }
-  },
-  PresentationVariant : {
-    Text           : 'Default',
-    Visualizations : ['@UI.LineItem'],
-    SortOrder      : [{
-      $Type      : 'Common.SortOrderType',
-      Property   : BookingSupplementID,
-      Descending : false
-    }]
-  },
-  LineItem : [
-    { Value : BookingSupplementID                                       },
-    { Value : to_Supplement_SupplementID, Label : '{i18n>ProductID}'    },
-    { Value : Price,                      Label : '{i18n>ProductPrice}' }
-  ],
-};
 
-annotate TravelService.Flight with @UI : {
-  PresentationVariant#SortOrderPV : {    // used in the value help for ConnectionId in Bookings
-    Visualizations : ['@UI.LineItem'],
-    SortOrder      : [{
-      Property   : FlightDate,
-      Descending : true
-    }]
-  }
-};
