@@ -17,26 +17,26 @@ entity Box : managed {
 entity Geraete : managed {
   key GeraeteUUID   : UUID;
   GeraeteID         : Integer @Core.Computed;
-  ConnectionID      : String(4);
   GeraeteStatus     : Association to GeraeteStatus;
   to_Geraetetyp        : Association to Geraetetyp;
   to_Patient       : Association to Patient;
   to_Box         : Association to Box;
   to_GVerbindung         : Association to GVerbindung on  to_GVerbindung.GeraetetypID = to_Geraetetyp.GeraetetypID
-                                            and to_GVerbindung.ConnectionID = ConnectionID;
+                                            and to_GVerbindung.GeraeteID = GeraeteID;
 };
 
 
 entity Geraetetyp : managed {
-  key GeraetetypID : String(3);
+  key GeraetetypID : Integer;
+Abkuerzung  : String (3);
   Bezeichnung          : String(40);
   AnleitungURL : String      @UI : {IsImageURL : true};
 };
 
 
 entity GVerbindung : managed {
-  key GeraetetypID    : String(3);
-  key ConnectionID : String(4);
+  key GeraetetypID    : String;
+  key GeraeteID : String;
   to_Geraetetyp       : Association to Geraetetyp on to_Geraetetyp.GeraetetypID = GeraetetypID;
 };
 
@@ -61,17 +61,20 @@ entity Patient : managed {
 
 entity GeraeteStatus : CodeList {
   key code : String enum {
-    New      = 'N';
-    Booked   = 'B';
-    Canceled = 'X';
+    Neu             = 'N';     
+    Einsatzbereit   = 'E';
+    Verfuegbar1     = 'V1';      
+    Verfuegbar2     = 'V2';
+    Messend         = 'M';
+    Gesperrt        = 'G'; 
   };
 };
 
 entity BoxStatus : CodeList {
   key code : String enum {
-    Open     = 'O';
-    Accepted = 'A';
-    Canceled = 'X';
+    Verfuegbar     = 'O';
+    Rueckgabe = 'R';
+    AusserHaus = 'X';
   } default 'O'; //> will be used for foreign keys as well
   criticality : Integer; //  2: yellow colour,  3: green colour, 0: unknown
   fieldControl: Integer @odata.Type:'Edm.Byte'; // 1: #ReadOnly, 7: #Mandatory

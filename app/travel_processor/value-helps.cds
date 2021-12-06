@@ -61,13 +61,13 @@ annotate my.Geraete {
     SearchSupported : true
   };
 
-  ConnectionID @Common.ValueList: {
+  GeraeteID @Common.ValueList: {
     CollectionPath : 'GVerbindung',
     Label : '',
     Parameters : [
       {$Type: 'Common.ValueListParameterInOut', LocalDataProperty: to_Geraetetyp_GeraetetypID,    ValueListProperty: 'GeraetetypID'},
-      {$Type: 'Common.ValueListParameterInOut', LocalDataProperty: ConnectionID, ValueListProperty: 'ConnectionID'},
-      {$Type: 'Common.ValueListParameterDisplayOnly', ValueListProperty: 'to_Geraetetyp/Bezeichnung'},
+      {$Type: 'Common.ValueListParameterInOut', LocalDataProperty: GeraeteID, ValueListProperty: 'GeraeteID'},
+      {$Type: 'Common.ValueListParameterDisplayOnly', ValueListProperty: 'to_Geraetetyp/Abkuerzung'},
     ],
     SearchSupported : true,
   };

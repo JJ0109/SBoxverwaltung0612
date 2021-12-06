@@ -160,7 +160,8 @@ annotate BoxService.Geraete with @UI : {
     { Value : GeraeteID,             Label : '{i18n>BookingNumber}' },
     { Value : to_Patient_PatientID },
     { Value : to_Geraetetyp_GeraetetypID   },
-    { Value : ConnectionID,          Label : '{i18n>FlightNumber}' },
+{ Value: GeraeteID }   , 
+   // { Value : ConnectionID,          Label : '{i18n>FlightNumber}' },
     { Value : GeraeteStatus_code     }
   ],
   Facets : [{
@@ -178,7 +179,8 @@ annotate BoxService.Geraete with @UI : {
     { Value : GeraeteID              },
     { Value : to_Patient_PatientID },
     { Value : to_Geraetetyp_GeraetetypID   },
-    { Value : ConnectionID           },
+    { Value: GeraeteID },
+  //  { Value : ConnectionID           },
     { Value : GeraeteStatus_code     }
   ]},
 };

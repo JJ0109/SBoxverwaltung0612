@@ -73,7 +73,7 @@ sap.ui.define(["sap/ui/test/opaQunit"], function (opaTest) {
         When.onTheShell.iNavigateBack();
       });
 
-      opaTest("#4: List report: Delete travel", function (Given, When, Then) {
+      opaTest("#4: List report: Delete box", function (Given, When, Then) {
         Then.onTheMainPage.iSeeThisPage();
 
         Then.onTheMainPage
@@ -126,7 +126,7 @@ sap.ui.define(["sap/ui/test/opaQunit"], function (opaTest) {
           // check that "Travel status" is Open
           Then.onTheMainPage
             .onTable()
-            .iCheckRows({ BoxID: "4132", "Box Status": "Open" }, 1);
+            .iCheckRows({ BoxID: "4132", "Box Status": "Verfügbar" }, 1);
 
           // trigger action
           When.onTheMainPage.onTable().iExecuteAction({
@@ -137,7 +137,7 @@ sap.ui.define(["sap/ui/test/opaQunit"], function (opaTest) {
           // check that "Travel status" is now Accepted
           Then.onTheMainPage
             .onTable()
-            .iCheckRows({ BoxID: "4132", "Box Status": "Accepted" }, 1);
+            .iCheckRows({ BoxID: "4132", "Box Status": "Rückgabe" }, 1);
 
           // unselect first row
           Given.onTheMainPage.onTable().iSelectRows({ BoxID: "4132" });
@@ -148,7 +148,7 @@ sap.ui.define(["sap/ui/test/opaQunit"], function (opaTest) {
           // check that "Travel status" is Open
           Then.onTheMainPage
             .onTable()
-            .iCheckRows({ BoxID: "4131", "Box Status": "Open" }, 1);
+            .iCheckRows({ BoxID: "4131", "Box Status": "Verfügbar" }, 1);
 
           // trigger action
           When.onTheMainPage.onTable().iExecuteAction({
@@ -159,7 +159,7 @@ sap.ui.define(["sap/ui/test/opaQunit"], function (opaTest) {
           // check that "Travel status" is Open
           Then.onTheMainPage
             .onTable()
-            .iCheckRows({ BoxID: "4131", "Box Status": "Canceled" }, 1);
+            .iCheckRows({ BoxID: "4131", "Box Status": "Außer Haus" }, 1);
 
           // unselect 2nd row
           Given.onTheMainPage.onTable().iSelectRows({ BoxID: "4131" });

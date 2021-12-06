@@ -8,7 +8,7 @@
       "type": "java",
       "name": "Launch SFlightApplication",
       "request": "launch",
-      "mainClass": "com.sap.cap.sflight.SFlightApplication",
+      "mainClass": "slah.db.SFlightApplication",
       "projectName": "srv"
     },
     {
