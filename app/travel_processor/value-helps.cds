@@ -67,10 +67,23 @@ annotate my.Geraete {
     Parameters : [
       {$Type: 'Common.ValueListParameterInOut', LocalDataProperty: to_Geraetetyp_GeraetetypID,    ValueListProperty: 'GeraetetypID'},
       {$Type: 'Common.ValueListParameterInOut', LocalDataProperty: GeraeteID, ValueListProperty: 'GeraeteID'},
-      {$Type: 'Common.ValueListParameterDisplayOnly', ValueListProperty: 'to_Geraetetyp/Abkuerzung'},
+      {$Type: 'Common.ValueListParameterDisplayOnly', ValueListProperty: 'to_Geraetetyp/Bezeichnung'},
     ],
     SearchSupported : true,
-  };
+    PresentationVariantQualifier: 'SortOrderPV'  // use presentation variant to sort by FlightDate desc
+  };  
+
+ /* ConnectionID @Common.ValueList: {
+    CollectionPath : 'GVerbindung',
+    Label : '',
+    Parameters : [
+      {$Type: 'Common.ValueListParameterInOut', LocalDataProperty: to_Geraetetyp_GeraetetypID,    ValueListProperty: 'GeraetetypID'},
+      {$Type: 'Common.ValueListParameterInOut', LocalDataProperty: GeraeteID, ValueListProperty: 'GeraeteID'},
+      {$Type: 'Common.ValueListParameterDisplayOnly', ValueListProperty: 'to_Geraetetyp/Bezeichnung'},
+    ],
+    SearchSupported : true,
+    PresentationVariantQualifier: 'SortOrderPV'  // use presentation variant to sort by FlightDate desc
+  };*/
 }
 
 
@@ -82,6 +95,15 @@ annotate my.GVerbindung {
     Parameters : [
       {$Type: 'Common.ValueListParameterInOut', LocalDataProperty: GeraetetypID, ValueListProperty: 'GeraetetypID'},
       {$Type: 'Common.ValueListParameterDisplayOnly', ValueListProperty: 'Bezeichnung'},
+    ],
+    SearchSupported : true
+  };
+
+    GeraeteID @Common.ValueList: {
+    CollectionPath : 'Geraete',
+    Label : '',
+    Parameters : [
+      {$Type: 'Common.ValueListParameterInOut', LocalDataProperty: GeraeteID, ValueListProperty: 'GeraeteID'}
     ],
     SearchSupported : true
   };

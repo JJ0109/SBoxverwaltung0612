@@ -5,7 +5,7 @@ namespace slah.db;
 
 entity Box : managed {
   key BoxUUID : UUID;
-  BoxID       : Integer @readonly default 0;
+  BoxID       : Integer @Core.Computed;
   BeginDateAusleihe      : Date;
   EndDateAusleihe        : Date;
   Boxname    : String(1024);
@@ -13,6 +13,7 @@ entity Box : managed {
   to_Patient    : Association to Patient;
   to_Geraete     : Composition of many Geraete on to_Geraete.to_Box = $self;
 };
+
 
 entity Geraete : managed {
   key GeraeteUUID   : UUID;
@@ -35,8 +36,8 @@ Abkuerzung  : String (3);
 
 
 entity GVerbindung : managed {
-  key GeraetetypID    : String;
-  key GeraeteID : String;
+  key GeraetetypID    : Integer;
+  key GeraeteID : Integer;
   to_Geraetetyp       : Association to Geraetetyp on to_Geraetetyp.GeraetetypID = GeraetetypID;
 };
 
@@ -59,6 +60,7 @@ entity Patient : managed {
 //  Code Lists
 //
 
+
 entity GeraeteStatus : CodeList {
   key code : String enum {
     Neu             = 'N';     
@@ -70,11 +72,12 @@ entity GeraeteStatus : CodeList {
   };
 };
 
+
 entity BoxStatus : CodeList {
   key code : String enum {
     Verfuegbar     = 'O';
-    Rueckgabe = 'R';
-    AusserHaus = 'X';
+    Rueckgabe      = 'R';
+    AusserHaus     = 'X';
   } default 'O'; //> will be used for foreign keys as well
   criticality : Integer; //  2: yellow colour,  3: green colour, 0: unknown
   fieldControl: Integer @odata.Type:'Edm.Byte'; // 1: #ReadOnly, 7: #Mandatory

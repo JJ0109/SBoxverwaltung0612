@@ -12,6 +12,7 @@ extend projection BoxService.Box with {
   // REVISIT: shall be improved by omitting "null as"
   virtual null as acceptEnabled         : Boolean @UI.Hidden,
   virtual null as rejectEnabled         : Boolean @UI.Hidden,
+  virtual null as availableEnabled         : Boolean @UI.Hidden,
 //  virtual null as deductDiscountEnabled : Boolean @UI.Hidden,
 }
 
@@ -31,7 +32,8 @@ annotate BoxService.Box with /* @(Common.SideEffects: {
     Common.SideEffects.TargetProperties : [
       'in/BoxStatus_code',
       'in/acceptEnabled',
-      'in/rejectEnabled'
+      'in/rejectEnabled',
+      'in/availableEnabled',
     ],
   );
   acceptBox @(
@@ -39,9 +41,19 @@ annotate BoxService.Box with /* @(Common.SideEffects: {
     Common.SideEffects.TargetProperties : [
       'in/BoxStatus_code',
       'in/acceptEnabled',
-      'in/rejectEnabled'
+      'in/rejectEnabled',
+      'in/availableEnabled'
     ],
   );
+  availableBox @(
+    Core.OperationAvailable : in.availableEnabled,
+    Common.SideEffects.TargetProperties : [
+      'in/BoxStatus_code',
+      'in/acceptEnabled',
+      'in/rejectEnabled',
+      'in/availableEnabled'
+    ],
+  );  
 /*  deductDiscount @(
     Core.OperationAvailable : in.deductDiscountEnabled,
     Common.SideEffects.TargetProperties : ['in/deductDiscountEnabled'],
@@ -51,7 +63,7 @@ annotate BoxService.Box with /* @(Common.SideEffects: {
 annotate BoxService.Geraete with @UI.CreateHidden : to_Box.BoxStatus.createDeleteHidden;
 
 annotate BoxService.Geraete {
-  ConnectionID  @Common.FieldControl  : to_Box.BoxStatus.fieldControl;
+ GeraeteID  @Common.FieldControl  : to_Box.BoxStatus.fieldControl;
  // FlightDate    @Common.FieldControl  : to_Box.BoxStatus.fieldControl;
  // FlightPrice   @Common.FieldControl  : to_Box.BoxStatus.fieldControl;
   GeraeteStatus @Common.FieldControl  : to_Box.BoxStatus.fieldControl;

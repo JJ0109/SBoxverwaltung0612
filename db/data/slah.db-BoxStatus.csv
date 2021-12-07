@@ -1,4 +1,4 @@
 code;name;criticality;fieldControl;createDeleteHidden
-O;Verfuegbar;3;1;1
+O;Verfuegbar;3;7;1
 R;Rueckgabe;2;7;0
-X;AusserHaus;0;7;1
+X;AusserHaus;0;1;0

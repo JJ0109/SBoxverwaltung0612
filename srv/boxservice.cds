@@ -5,8 +5,9 @@ service BoxService @(path:'/processor', requires: 'admin') {
 
   entity Box as projection on my.Box actions {
     action createBoxByTemplate() returns Box;
-    action rejectBox();
+    action rejectBox();     
     action acceptBox();
+    action availableBox();
    // action deductDiscount( percent: Percentage not null ) returns Travel;
   };
 
@@ -16,7 +17,7 @@ service BoxService @(path:'/processor', requires: 'admin') {
   entity Geraete as projection on my.Geraete;
   entity Geraetetyp as projection on my.Geraetetyp; 
   entity GVerbindung as projection on my.GVerbindung;
-  entity Patient as projection on my.Patient;       
+  entity Patient as projection on my.Patient;   
   }
 
 

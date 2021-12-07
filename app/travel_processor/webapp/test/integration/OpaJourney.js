@@ -100,7 +100,7 @@ sap.ui.define(["sap/ui/test/opaQunit"], function (opaTest) {
       });
 
       opaTest(
-        "#5: List report: Check actions (Accept, Reject)",
+        "#5: List report: Check actions (Accept, Reject, Available)",
         function (Given, When, Then) {
           Then.onTheMainPage.iSeeThisPage();
 
@@ -123,7 +123,7 @@ sap.ui.define(["sap/ui/test/opaQunit"], function (opaTest) {
               { visible: true, enabled: true }
             );
 
-          // check that "Travel status" is Open
+          // check that "Box status" is Open
           Then.onTheMainPage
             .onTable()
             .iCheckRows({ BoxID: "4132", "Box Status": "Verfügbar" }, 1);
@@ -134,7 +134,7 @@ sap.ui.define(["sap/ui/test/opaQunit"], function (opaTest) {
             action: "acceptBox",
           });
 
-          // check that "Travel status" is now Accepted
+          // check that "Box status" is now Accepted
           Then.onTheMainPage
             .onTable()
             .iCheckRows({ BoxID: "4132", "Box Status": "Rückgabe" }, 1);
@@ -145,7 +145,7 @@ sap.ui.define(["sap/ui/test/opaQunit"], function (opaTest) {
           // select 2nd row
           Given.onTheMainPage.onTable().iSelectRows({ BoxID: "4131" });
 
-          // check that "Travel status" is Open
+          // check that "Box status" is Open
           Then.onTheMainPage
             .onTable()
             .iCheckRows({ BoxID: "4131", "Box Status": "Verfügbar" }, 1);
@@ -156,7 +156,7 @@ sap.ui.define(["sap/ui/test/opaQunit"], function (opaTest) {
             action: "rejectBox",
           });
 
-          // check that "Travel status" is Open
+          // check that "Box status" is Open
           Then.onTheMainPage
             .onTable()
             .iCheckRows({ BoxID: "4131", "Box Status": "Außer Haus" }, 1);

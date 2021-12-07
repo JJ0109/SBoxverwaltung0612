@@ -16,6 +16,7 @@ init() {
     const status = any.BoxStatus && any.BoxStatus.code || any.BoxStatus_code
     any.acceptEnabled = status !== 'R'
     any.rejectEnabled = status !== 'X'
+    any.availableEnabled = status !== 'O'
     //any.deductDiscountEnabled = status === 'O'
   }
   this.after ('each', 'Box', _calculateButtonAvailability)
@@ -125,6 +126,7 @@ init() {
 
   this.on ('acceptBox', req => UPDATE (req._target) .with ({BoxStatus_code:'R'}))
   this.on ('rejectBox', req => UPDATE (req._target) .with ({BoxStatus_code:'X'}))
+  this.on ('availableBox', req => UPDATE (req._target) .with ({BoxStatus_code:'O'}))
  /* this.on ('deductDiscount', async req => {
     let discount = req.data.percent / 100
     let succeeded = await UPDATE (req._target)
