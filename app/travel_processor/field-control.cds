@@ -63,7 +63,7 @@ annotate BoxService.Box with /* @(Common.SideEffects: {
 annotate BoxService.Geraete with @UI.CreateHidden : to_Box.BoxStatus.createDeleteHidden;
 
 annotate BoxService.Geraete {
- GeraeteID  @Common.FieldControl  : to_Box.BoxStatus.fieldControl;
+ ConnectionID  @Common.FieldControl  : to_Box.BoxStatus.fieldControl;
  // FlightDate    @Common.FieldControl  : to_Box.BoxStatus.fieldControl;
  // FlightPrice   @Common.FieldControl  : to_Box.BoxStatus.fieldControl;
   GeraeteStatus @Common.FieldControl  : to_Box.BoxStatus.fieldControl;

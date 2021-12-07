@@ -22,7 +22,7 @@ annotate schema.Geraete with @title: '{i18n>Booking}' {
   GeraeteUUID   @UI.Hidden;
   to_Box     @UI.Hidden;
   GeraeteID     @title: '{i18n>BookingID}';
-//  ConnectionID  @title: '{i18n>ConnectionID}';
+  ConnectionID  @title: '{i18n>ConnectionID}';
   GeraeteStatus @title: '{i18n>BookingStatus}'  @Common.Text: GeraeteStatus.name    @Common.TextArrangement: #TextOnly;
   to_Geraetetyp    @title: '{i18n>AirlineID}'      @Common.Text: to_Geraetetyp.Bezeichnung       @Common.TextArrangement: #TextFirst;
   to_Patient   @title: '{i18n>CustomerID}'     @Common.Text: to_Patient.Nachname  @Common.TextArrangement: #TextFirst;
@@ -74,7 +74,7 @@ annotate schema.Geraetetyp with @title: '{i18n>Airline}' {
 
 annotate schema.GVerbindung with @title: '{i18n>Flight}' {
   GeraetetypID     @title: '{i18n>AirlineID}';
-  GeraeteID  @title: '{i18n>BookingID}';
+  ConnectionID  @title: '{i18n>ConnectionID}';
 }
 
 

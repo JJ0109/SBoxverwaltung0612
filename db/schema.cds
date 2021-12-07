@@ -18,12 +18,13 @@ entity Box : managed {
 entity Geraete : managed {
   key GeraeteUUID   : UUID;
   GeraeteID         : Integer @Core.Computed;
+  ConnectionID : String;
   GeraeteStatus     : Association to GeraeteStatus;
   to_Geraetetyp        : Association to Geraetetyp;
   to_Patient       : Association to Patient;
   to_Box         : Association to Box;
   to_GVerbindung         : Association to GVerbindung on  to_GVerbindung.GeraetetypID = to_Geraetetyp.GeraetetypID
-                                            and to_GVerbindung.GeraeteID = GeraeteID;
+                                            and to_GVerbindung.ConnectionID = ConnectionID;
 };
 
 
@@ -37,7 +38,7 @@ Abkuerzung  : String (3);
 
 entity GVerbindung : managed {
   key GeraetetypID    : Integer;
-  key GeraeteID : Integer;
+  key ConnectionID : String(4);
   to_Geraetetyp       : Association to Geraetetyp on to_Geraetetyp.GeraetetypID = GeraetetypID;
 };
 

@@ -61,7 +61,7 @@ annotate my.Geraete {
     SearchSupported : true
   };
 
-  GeraeteID @Common.ValueList: {
+  /*GeraeteID @Common.ValueList: {
     CollectionPath : 'GVerbindung',
     Label : '',
     Parameters : [
@@ -71,19 +71,19 @@ annotate my.Geraete {
     ],
     SearchSupported : true,
     PresentationVariantQualifier: 'SortOrderPV'  // use presentation variant to sort by FlightDate desc
-  };  
+  };  */
 
- /* ConnectionID @Common.ValueList: {
+  ConnectionID @Common.ValueList: {
     CollectionPath : 'GVerbindung',
     Label : '',
     Parameters : [
       {$Type: 'Common.ValueListParameterInOut', LocalDataProperty: to_Geraetetyp_GeraetetypID,    ValueListProperty: 'GeraetetypID'},
-      {$Type: 'Common.ValueListParameterInOut', LocalDataProperty: GeraeteID, ValueListProperty: 'GeraeteID'},
+      {$Type: 'Common.ValueListParameterInOut', LocalDataProperty: ConnectionID, ValueListProperty: 'ConnectionID'},
       {$Type: 'Common.ValueListParameterDisplayOnly', ValueListProperty: 'to_Geraetetyp/Bezeichnung'},
     ],
     SearchSupported : true,
     PresentationVariantQualifier: 'SortOrderPV'  // use presentation variant to sort by FlightDate desc
-  };*/
+  };
 }
 
 
@@ -99,16 +99,16 @@ annotate my.GVerbindung {
     SearchSupported : true
   };
 
-    GeraeteID @Common.ValueList: {
+   /* GeraeteID @Common.ValueList: {
     CollectionPath : 'Geraete',
     Label : '',
     Parameters : [
       {$Type: 'Common.ValueListParameterInOut', LocalDataProperty: GeraeteID, ValueListProperty: 'GeraeteID'}
     ],
     SearchSupported : true
-  };
+  };*/
 
-  /*ConnectionID @Common.ValueList: {
+  ConnectionID @Common.ValueList: {
     CollectionPath : 'FlightConnection',
     Label : '',
     Parameters : [
@@ -117,7 +117,7 @@ annotate my.GVerbindung {
       {$Type: 'Common.ValueListParameterDisplayOnly', ValueListProperty: 'GeraetetypID_Text'},
     ],
     SearchSupported : true
-  };*/
+  };
 
 }
 
