@@ -1,6 +1,6 @@
-using from './travel_processor/capabilities';
-using from './travel_processor/field-control';
-using from './travel_processor/labels';
+using from './boxverwaltung/capabilities';
+using from './boxverwaltung/field-control';
+using from './boxverwaltung/labels';
 
-using from './travel_processor/value-helps';
-using from './travel_processor/layouts';
+using from './boxverwaltung/value-helps';
+using from './boxverwaltung/layouts';

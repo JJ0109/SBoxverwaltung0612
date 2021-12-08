@@ -77,6 +77,6 @@
     "testTimeout": 20000
   },
   "sapux": [
-    "app/travel_processor"
+    "app/boxverwaltung"
   ]
 }
