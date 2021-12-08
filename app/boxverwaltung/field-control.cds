@@ -54,16 +54,13 @@ annotate BoxService.Box with /* @(Common.SideEffects: {
       'in/availableEnabled'
     ],
   );  
-/*  deductDiscount @(
-    Core.OperationAvailable : in.deductDiscountEnabled,
-    Common.SideEffects.TargetProperties : ['in/deductDiscountEnabled'],
-  );*/
 }
 
 annotate BoxService.Geraete with @UI.CreateHidden : to_Box.BoxStatus.createDeleteHidden;
 
 annotate BoxService.Geraete {
- ConnectionID  @Common.FieldControl  : to_Box.BoxStatus.fieldControl;
+ //ConnectionID  @Common.FieldControl  : to_Box.BoxStatus.fieldControl;
+ GeraeteID  @Common.FieldControl  : to_Box.BoxStatus.fieldControl;
  // FlightDate    @Common.FieldControl  : to_Box.BoxStatus.fieldControl;
  // FlightPrice   @Common.FieldControl  : to_Box.BoxStatus.fieldControl;
   GeraeteStatus @Common.FieldControl  : to_Box.BoxStatus.fieldControl;

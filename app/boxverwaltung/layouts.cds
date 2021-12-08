@@ -114,7 +114,7 @@ annotate BoxService.Geraete with @UI : {
   LineItem : [
     { Value : to_Geraetetyp.AnleitungURL},
     { Value : GeraeteID            },
-    { Value : ConnectionID            },
+   // { Value : ConnectionID            },
    // { Value : to_Patient_PatientID },
     { Value : to_Geraetetyp_GeraetetypID   },
     { Value : GeraeteStatus_code     }
@@ -132,7 +132,7 @@ annotate BoxService.Geraete with @UI : {
   }, ],
   FieldGroup #GeraeteData : { Data : [
     { Value : GeraeteID              },
-    { Value : ConnectionID              },
+   // { Value : ConnectionID              },
     { Value : to_Patient_PatientID },
     { Value : to_Geraetetyp_GeraetetypID   },
     { Value : GeraeteStatus_code     }
