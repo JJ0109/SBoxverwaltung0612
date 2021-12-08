@@ -21,7 +21,7 @@ entity Geraete : managed {
   GeraeteStatus     : Association to GeraeteStatus;
   to_Geraetetyp        : Association to Geraetetyp;
   to_Patient       : Association to Patient;
-  to_Box         : Association to Box;
+  to_Box           : Association to Box;
   to_GVerbindung         : Association to GVerbindung on  to_GVerbindung.GeraetetypID = to_Geraetetyp.GeraetetypID
                                             and to_GVerbindung.GeraeteID = GeraeteID;
 };
@@ -29,7 +29,6 @@ entity Geraete : managed {
 
 entity Geraetetyp : managed {
   key GeraetetypID : Integer;
-Abkuerzung  : String (3);
   Bezeichnung          : String(40);
   AnleitungURL : String      @UI : {IsImageURL : true};
 };

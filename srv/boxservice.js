@@ -40,7 +40,7 @@ init() {
   this.before ('NEW', 'Geraete', async (req) => {
     const { to_Box_BoxUUID } = req.data
     const { status } = await SELECT `BoxStatus_code as status` .from (Box.drafts, to_Box_BoxUUID)
-    if (status === 'X') throw req.reject (400, 'Cannot add new bookings to rejected Boxs.')
+    if (status === 'X') throw req.reject (400, 'Das Hinzufügen eines neuen Geräts ist im Status "Außer Haus" ist nicht verfügbar.')
     const { maxID } = await SELECT.one `max(GeraeteID) as maxID` .from (Geraete.drafts) .where ({to_Box_BoxUUID})
     req.data.GeraeteID = maxID + 1
     req.data.GeraeteStatus_code = 'N'

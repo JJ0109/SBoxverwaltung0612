@@ -79,7 +79,7 @@ annotate BoxService.Box with @UI : {
       $Type       : 'UI.DataField',
       Value       : BoxStatus_code,
       Criticality : BoxStatus.criticality,
-      Label : '{i18n>GeraeteStatus}' // label only necessary if differs from title of element
+      Label : '{i18n>BoxStatus}' // label only necessary if differs from title of element
     }
   ]},
   FieldGroup #DateData : {Data : [
@@ -115,7 +115,7 @@ annotate BoxService.Geraete with @UI : {
     { Value : to_Geraetetyp.AnleitungURL},
     { Value : GeraeteID            },
    // { Value : ConnectionID            },
-   // { Value : to_Patient_PatientID },
+    { Value : to_Patient_PatientID },
     { Value : to_Geraetetyp_GeraetetypID   },
     { Value : GeraeteStatus_code     }
   ],
