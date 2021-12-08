@@ -7,7 +7,7 @@
     "description": "{{description}}",
     "i18n": {
       "bundleName": "slah.db.i18n.i18n",
-      "supportedLocales": ["en", "de", "fr"],
+      "supportedLocales": ["en", "de"],
       "fallbackLocale": "en"
     },
     "applicationVersion": {
