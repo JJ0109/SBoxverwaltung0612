@@ -3,47 +3,45 @@ const cds = require ('@sap/cds'); require('./workarounds')
 class BoxService extends cds.ApplicationService {
 init() {
 
-  /**
-   * Reflect definitions from the service's CDS model
-   */
+  /** Reflect definitions from the service's CDS model */
   const { Box, Geraete } = this.entities
 
-
-  /**
-   * Fill in virtual elements to control status of UI elements.
-   */
-  const _calculateButtonAvailability = any => {
-    const status = any.BoxStatus && any.BoxStatus.code || any.BoxStatus_code
-    any.acceptEnabled = status !== 'R'
-    any.rejectEnabled = status !== 'X'
+/** Sichtbarkeit der Buttons */
+const _calculateButtonAvailability = any => {
+const status = any.BoxStatus && any.BoxStatus.code || any.BoxStatus_code
+//Status Rückgabe
+if (any.acceptEnabled = status === 'R')
+{    any.rejectEnabled = status === 'X'
     any.availableEnabled = status !== 'O'
-    //any.deductDiscountEnabled = status === 'O'
-  }
-  this.after ('each', 'Box', _calculateButtonAvailability)
-  this.after ('EDIT', 'Box', _calculateButtonAvailability)
+//Status Verfügbar    
+}  else if (any.availableEnabled = status === 'O')
+{    any.rejectEnabled = status !== 'X'
+    any.acceptEnabled = status === 'R'   
+//Status Außer Haus    
+} else if (any.rejectEnabled = status === 'X')
+{    any.avaiableEnabled = status === 'O'
+    any.acceptEnabled = status !== 'R'                          
+}}
+this.after ('each', 'Box', _calculateButtonAvailability)
+this.after ('EDIT', 'Box', _calculateButtonAvailability)
 
+ 
 
-  /**
-   * Fill in primary keys for new Boxs.
-   * Note: In contrast to Bookings and BookingSupplements that has to happen
-   * upon SAVE, as multiple users could create new Boxs concurrently.
-   */
+/** Fill in primary keys for new Boxs. */
   this.before ('CREATE', 'Box', async req => {
     const { maxID } = await SELECT.one `max(BoxID) as maxID` .from (Box)
     req.data.BoxID = maxID + 1
   })
 
 
-  /**
-   * Fill in defaults for new Bookings when editing Boxs.
-   */
+  /** Fill in defaults for new Geraete when editing Boxen */
   this.before ('NEW', 'Geraete', async (req) => {
     const { to_Box_BoxUUID } = req.data
     const { status } = await SELECT `BoxStatus_code as status` .from (Box.drafts, to_Box_BoxUUID)
     if (status === 'X') throw req.reject (400, 'Das Hinzufügen eines neuen Geräts ist im Status "Außer Haus" ist nicht verfügbar.')
-    const { maxID } = await SELECT.one `max(GeraeteID) as maxID` .from (Geraete.drafts) .where ({to_Box_BoxUUID})
-    req.data.GeraeteID = maxID + 1
-    req.data.GeraeteStatus_code = 'N'
+    //const { maxID } = await SELECT.one `max(GeraeteID) as maxID` .from (Geraete.drafts) .where ({to_Box_BoxUUID})
+    //req.data.GeraeteID = maxID + 1
+    //req.data.GeraeteStatus_code = 'N'
    // req.data.BookingDate = (new Date).toISOString().slice(0,10) // today
   })
 
@@ -115,10 +113,9 @@ init() {
    */
   this.before ('SAVE', 'Box', req => {
     const { BeginDateAusleihe, EndDateAusleihe } = req.data, today = (new Date).toISOString().slice(0,10)
-    if (BeginDateAusleihe < today) req.error (400, `Begin Date ${BeginDateAusleihe} must not be before today ${today}.`, 'in/BeginDateAusleihe')
-    if (BeginDateAusleihe > EndDateAusleihe) req.error (400, `Begin Date ${BeginDateAusleihe} must be before End Date ${EndDateAusleihe}.`, 'in/BeginDateAusleihe')
+    if (BeginDateAusleihe < today) req.error (400, `Datem der Ausleihe ${BeginDateAusleihe} darf nicht vor dem heutigen Datum liegen ${today}.`, 'in/BeginDateAusleihe')
+    if (BeginDateAusleihe > EndDateAusleihe) req.error (400, `Datum der Ausleihe ${BeginDateAusleihe} muss vor dem Rückgabedatum liegen ${EndDateAusleihe}.`, 'in/BeginDateAusleihe')
   })
-
 
   //
   // Action Implementations...
@@ -127,27 +124,6 @@ init() {
   this.on ('acceptBox', req => UPDATE (req._target) .with ({BoxStatus_code:'R'}))
   this.on ('rejectBox', req => UPDATE (req._target) .with ({BoxStatus_code:'X'}))
   this.on ('availableBox', req => UPDATE (req._target) .with ({BoxStatus_code:'O'}))
- /* this.on ('deductDiscount', async req => {
-    let discount = req.data.percent / 100
-    let succeeded = await UPDATE (req._target)
-      .where `TravelStatus_code != 'A'`
-      .and `BookingFee is not null`
-      .with (`
-        TotalPrice = round (TotalPrice - BookingFee * ${discount}, 3),
-        BookingFee = round (BookingFee - BookingFee * ${discount}, 3)
-      `)
-    if (!succeeded) { //> let's find out why...
-      let travel = await SELECT.one `TravelID as ID, TravelStatus_code as status, BookingFee` .from (req._target)
-      if (!travel) throw req.reject (404, `Travel "${travel.ID}" does not exist; may have been deleted meanwhile.`)
-      if (travel.status === 'A') req.reject (400, `Travel "${travel.ID}" has been approved already.`)
-      if (travel.BookingFee == null) throw req.reject (404, `No discount possible, as travel "${travel.ID}" does not yet have a booking fee added.`)
-    } else {
-      // Note: it is important to read from this, not db to include draft handling
-      // REVISIT: through req._target workaround, IsActiveEntity is non-enumerable, which breaks this.read(Travel, req.params[0])
-      const [{ TravelUUID, IsActiveEntity }] = req.params
-      return this.read(Travel, { TravelUUID, IsActiveEntity })
-    }
-  })*/
 
 
   // Add base class's handlers. Handlers registered above go first.

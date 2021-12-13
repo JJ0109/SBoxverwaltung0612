@@ -70,7 +70,6 @@ annotate my.Geraete {
       {$Type: 'Common.ValueListParameterDisplayOnly', ValueListProperty: 'to_Geraetetyp/Bezeichnung'},
     ],
     SearchSupported : true,
-    PresentationVariantQualifier: 'SortOrderPV'  // use presentation variant to sort by FlightDate desc
   }; 
 }
 

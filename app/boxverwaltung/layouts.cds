@@ -9,7 +9,7 @@ annotate BoxService.Box with @UI : {
   Identification : [
     { $Type  : 'UI.DataFieldForAction', Action : 'BoxService.rejectBox',   Label  : '{i18n>RejectBox}'   },      
     { $Type  : 'UI.DataFieldForAction', Action : 'BoxService.acceptBox',   Label  : '{i18n>AcceptBox}'   },
-    { $Type  : 'UI.DataFieldForAction', Action : 'BoxService.availableBox', Label  : '{i18n>AvailableBox}' }
+    { $Type  : 'UI.DataFieldForAction', Action : 'BoxService.availableBox', Label : '{i18n>AvailableBox}'}
   ],
   HeaderInfo : {
     TypeName       : '{i18n>Box}',
@@ -38,9 +38,9 @@ annotate BoxService.Box with @UI : {
     BoxStatus_code
   ],
   LineItem : [
-   { $Type  : 'UI.DataFieldForAction', Action : 'BoxService.rejectBox',   Label  : '{i18n>RejectBox}'   },      
+    { $Type  : 'UI.DataFieldForAction', Action : 'BoxService.rejectBox',   Label  : '{i18n>RejectBox}'   },      
     { $Type  : 'UI.DataFieldForAction', Action : 'BoxService.acceptBox',   Label  : '{i18n>AcceptBox}'   },
-    { $Type  : 'UI.DataFieldForAction', Action : 'BoxService.availableBox', Label  : '{i18n>AvailableBox}' },
+    { $Type  : 'UI.DataFieldForAction', Action : 'BoxService.availableBox',Label  : '{i18n>AvailableBox}'},
     { Value : BoxID               },
     { Value : to_Patient_PatientID },
     { Value : BeginDateAusleihe              },
